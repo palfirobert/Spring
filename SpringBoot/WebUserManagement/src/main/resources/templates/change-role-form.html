@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>Save Employee</title>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h3>User Directory</h3>
+    <hr>
+
+    <p class="h4 mb-4">Save User</p>
+
+    <form action="#" th:action="@{/changeRole}"
+          th:object="${user}" method="POST">
+        <!-- LA THYMELEAF INAINTE SA INTRE IN FORM SE APELEAZA GETTER SI DACA DAM ID-UL DIN PRIMA VA DA GETTER DE ID-UL RESPECTIV-->
+
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{email}"/>
+        <input type="hidden" th:field="*{password}"/>
+        <input type="text" th:field="*{firstName}"
+               class="form-control mb-4 col-4" placeholder="First name">
+
+        <input type="text" th:field="*{lastName}"
+               class="form-control mb-4 col-4" placeholder="Last name">
+        <input type="text" th:field="*{username}"
+               class="form-control mb-4 col-4" placeholder="Username">
+        <select th:name="role">
+            <option value="ROLE_USER">USER</option>
+            <option value="ROLE_ADMIN">ADMIN</option>
+
+        </select>
+        <button type="submit" class="btn btn-info col-2">UPDATE</button>
+
+    </form>
+
+    <hr>
+    <a th:href="@{/list}">Back to User List</a>
+
+</div>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Directory</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/menu.css}"/>
+    <script type="text/javascript" th:src="@{/js/menu.js}"></script>
+</head>
+<body>
+
+<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+    <input hidden type="submit" value="Sign Out"/>
+</form>
+<div class="dropdown">
+    <button onclick="myFunction()" class="dropbtn">Menu</button>
+    <div id="myDropdown" class="dropdown-content">
+        <a href="javascript: document.logoutForm.submit()" role="menuitem"> Logout</a>
+
+    </div>
+</div>
+
+<div class="container">
+<h3>User Directory</h3>
+<a th:href="@{/showRegistrationForm(flag=${flag})}"
+class="btn btn-primary btn-sm mb-3">Manually add user</a>
+<hr>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Email</th>
+    <th>Action</th>
+    </thead>
+    <tbody>
+    <tr th:each="tempUser : ${users}">
+        <td th:text="${tempUser.firstName}"/>
+        <td th:text="${tempUser.lastName}"/>
+        <td th:text="${tempUser.email}"/>
+
+        <td class="btn-group">
+            <a th:href="@{/showFormForUpdate(userName=${tempUser.username})}"
+            class="btn btn-info btn-sm">Update</a>
+
+            <a th:href="@{/delete(userName=${tempUser.username})}"
+               class="btn btn-danger btn-sm"
+               onclick="if (!(confirm('Are you sure you want to delete this user?'))) return false">Delete</a>
+            <div sec:authorize="hasRole('OWNER')">
+            <a th:href="@{/showFormForChangeRole(userName=${tempUser.username})}"
+               class="btn btn-info btn-warning">Change Role</a>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>
