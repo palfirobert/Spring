@@ -11,6 +11,9 @@
 <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
     <input hidden type="submit" value="Sign Out"/>
 </form>
+
+
+<div class="alert alert-success col-xs-offset-1 col-xs-10" th:text="${success}" th:if="${success}"></div>
 <div class="dropdown">
     <button onclick="myFunction()" class="dropbtn">Menu</button>
     <div id="myDropdown" class="dropdown-content">
@@ -18,7 +21,6 @@
         <a href="/" role="menuitem"> Home Page</a>
     </div>
 </div>
-
 <form action="#" th:action="@{/update(role=${role})}"
       th:object="${user}" method="POST">
     <!-- LA THYMELEAF INAINTE SA INTRE IN FORM SE APELEAZA GETTER SI DACA DAM ID-UL DIN PRIMA VA DA GETTER DE ID-UL RESPECTIV-->

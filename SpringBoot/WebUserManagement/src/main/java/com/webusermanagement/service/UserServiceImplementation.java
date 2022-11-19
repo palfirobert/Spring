@@ -79,6 +79,12 @@ public class UserServiceImplementation implements UserService{
 
     @Override
     @Transactional
+    public void changePassword(User user, String newPassword) {
+        userDAO.changePassword(user,newPassword);
+    }
+
+    @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user=userDAO.findByUserName(username);
         if(user==null)

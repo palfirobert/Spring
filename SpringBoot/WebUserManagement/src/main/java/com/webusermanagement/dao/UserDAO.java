@@ -12,4 +12,5 @@ public interface UserDAO {
     public void update(User user,String roleName);
 
     public void changeRole(String roleName,String username);
+    public void changePassword(User user,String newPassword);
 }

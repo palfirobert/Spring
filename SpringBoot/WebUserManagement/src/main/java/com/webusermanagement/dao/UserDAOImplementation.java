@@ -4,6 +4,7 @@ import com.webusermanagement.entity.User;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -17,6 +18,9 @@ public class UserDAOImplementation implements UserDAO {
     private EntityManager entityManager;
     @Autowired
     private RoleDAO roleDAO;
+
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     @Override
     public User findByUserName(String username) {
@@ -69,6 +73,13 @@ public class UserDAOImplementation implements UserDAO {
         Session currentSession = entityManager.unwrap(Session.class);
         User user=this.findByUserName(username);
         user.setRoles(Arrays.asList(roleDAO.findRoleByName(roleName)));
+        currentSession.update(user);
+    }
+
+    @Override
+    public void changePassword(User user, String newPassword) {
+        Session currentSession = entityManager.unwrap(Session.class);
+        user.setPassword(encoder.encode(newPassword));
         currentSession.update(user);
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -114,14 +115,18 @@ public class UserController {
     @GetMapping("/showFormForChangePassword")
     public String showFormForChangePassword(Model model){
         model.addAttribute("pw",new ChangePassword());
+
         return "change-password-form";
     }
     @PostMapping("/processChangePassword")
-    public String processRegistrationForm( @Valid @ModelAttribute("pw") ChangePassword password,
+    public String processRegistrationForm(@Valid @ModelAttribute("pw") ChangePassword password, RedirectAttributes redirectAttributes,
                                           BindingResult theBindingResult) {
         if(theBindingResult.hasErrors())
             return "change-password-form";
-
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user=userService.findByUserName(auth.getName());
+        userService.changePassword(user,password.getPassword());
+        redirectAttributes.addFlashAttribute("success", "Password changed!");
         return "redirect:/user";
 
     }
