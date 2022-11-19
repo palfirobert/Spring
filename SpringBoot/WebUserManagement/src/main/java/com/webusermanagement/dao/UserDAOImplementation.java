@@ -58,9 +58,9 @@ public class UserDAOImplementation implements UserDAO {
     }
 
     @Override
-    public void update(User user) {
+    public void update(User user,String roleName) {
         Session currentSession = entityManager.unwrap(Session.class);
-        user.setRoles(Arrays.asList(roleDAO.findRoleByName("ROLE_USER")));
+        user.setRoles(Arrays.asList(roleDAO.findRoleByName(roleName)));
         currentSession.update(user);
     }
 

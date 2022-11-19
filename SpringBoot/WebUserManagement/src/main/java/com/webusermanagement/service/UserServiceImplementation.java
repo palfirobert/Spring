@@ -66,9 +66,9 @@ public class UserServiceImplementation implements UserService{
 
     @Override
     @Transactional
-    public void update(User user) {
+    public void update(User user,String roleName) {
         System.out.println(user.toString());
-        userDAO.update(user);
+        userDAO.update(user,roleName);
     }
 
     @Override

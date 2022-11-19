@@ -13,6 +13,6 @@ public interface UserService extends UserDetailsService {
 
     public void deleteByUsername(String username);
     public List<User> findAll();
-    public void update(User user);
+    public void update(User user,String roleName);
     public void changeRole(String roleName,String username);
 }
