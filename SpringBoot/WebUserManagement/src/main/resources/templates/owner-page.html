@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/css/menu.css}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script type="text/javascript" th:src="@{/js/menu.js}"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <title>OWNER PAGE</title>
 </head>
 <body>
+<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+    <input hidden type="submit" value="Sign Out"/>
+</form>
+<div class="dropdown">
+    <button onclick="myFunction()" class="dropbtn">Menu</button>
+    <div id="myDropdown" class="dropdown-content">
+        <a href="javascript: document.logoutForm.submit()" role="menuitem"> Logout</a>
+        <a href="/" role="menuitem"> Home Page</a>
+    </div>
+</div>
 <h1>Welcome Owner</h1>
+<br><br>
+<a th:href="@{/rest/users}" class="btn btn-primary btn-sm mb-3 btn-success">Users REST</a>
+<h2>Get a user data after id: </h2>
+<form th:action="@{/processUserById}">
+    <input type="number" min="1" th:name="Id"/>
+    <input type="submit">
+    <div class="alert alert-danger col-xs-offset-1 col-xs-10" th:text="${message}" th:if="${message}"></div>
+</form>
 </body>
 </html>

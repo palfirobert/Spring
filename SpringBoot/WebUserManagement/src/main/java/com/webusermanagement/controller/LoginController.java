@@ -73,7 +73,7 @@ public class LoginController {
 
     }
 
-    @PostMapping("/processRegistrationFormAdmin")
+    @PostMapping("/processRegistrationFormAdmin ")
     public String processRegistrationFormAdmin(
             @Valid @ModelAttribute("crmUser") CrmUser theCrmUser,BindingResult theBindingResult,
             Model theModel) {

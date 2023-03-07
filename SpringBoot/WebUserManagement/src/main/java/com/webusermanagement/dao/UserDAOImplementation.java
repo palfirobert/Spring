@@ -82,4 +82,21 @@ public class UserDAOImplementation implements UserDAO {
         user.setPassword(encoder.encode(newPassword));
         currentSession.update(user);
     }
+
+    @Override
+    public User findById(Long id) {
+        Session currentSession = entityManager.unwrap(Session.class);
+        Query<User> theQuery = currentSession.createQuery("from User where id=:userId");
+        theQuery.setParameter("userId", id);
+        User theUser = null;
+        try {
+            theUser = theQuery.getSingleResult();
+        } catch (Exception e) {
+            theUser = null;
+        }
+
+        return theUser;
+    }
+
+
 }

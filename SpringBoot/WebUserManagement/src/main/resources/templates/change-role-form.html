@@ -36,9 +36,8 @@
         <input type="text" th:field="*{username}"
                class="form-control mb-4 col-4" placeholder="Username">
         <select th:name="role">
-            <option value="ROLE_USER">USER</option>
-            <option value="ROLE_ADMIN">ADMIN</option>
 
+            <option th:each="option : ${options}" th:value="${option}" th:text="${option}"></option>
         </select>
         <button type="submit" class="btn btn-info col-2">UPDATE</button>
 

@@ -28,8 +28,6 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @Column(name="enabled")
-    private Boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
@@ -39,21 +37,21 @@ public class User {
 
     public User(){}
 
-    public User(String username, String password, String firstName, String lastName, boolean enabled, Collection<Role> roles) {
+    public User(String username, String password, String firstName, String lastName, Collection<Role> roles) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.enabled = enabled;
+
         this.roles = roles;
     }
 
-    public User(String username, String password, String firstName, String lastName, boolean enabled) {
+    public User(String username, String password, String firstName, String lastName) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.enabled = enabled;
+
     }
 
     public User(String username, String password, Collection<Role> roles) {
@@ -102,13 +100,7 @@ public class User {
         this.lastName = lastName;
     }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
 
     public Collection<Role> getRoles() {
         return roles;
@@ -135,7 +127,6 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", enabled=" + enabled +
                 ", roles=" + roles +
                 '}';
     }

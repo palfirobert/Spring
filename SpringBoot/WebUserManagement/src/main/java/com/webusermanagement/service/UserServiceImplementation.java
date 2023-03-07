@@ -85,6 +85,12 @@ public class UserServiceImplementation implements UserService{
 
     @Override
     @Transactional
+    public User findById(Long id) {
+        return userDAO.findById(id);
+    }
+
+    @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user=userDAO.findByUserName(username);
         if(user==null)

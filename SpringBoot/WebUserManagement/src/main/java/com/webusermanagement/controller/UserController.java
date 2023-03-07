@@ -2,6 +2,7 @@ package com.webusermanagement.controller;
 
 import com.webusermanagement.entity.*;
 import com.webusermanagement.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -49,19 +51,30 @@ public class UserController {
     }
 
     @GetMapping("/list")
-    private String listEmployees(Model model){
+    public String listEmployees(Model model){
         List<User> users=userService.findAll();
-        model.addAttribute("users",users);
+        List<User>list=getUsersWithoutOwner(users);
+        model.addAttribute("users",list);
         model.addAttribute("flag",1);
         return "list-users";
     }
+    private List <User>getUsersWithoutOwner(List<User>users)
+    {List<User>usr=new ArrayList<>();
+        for(User aux:users)
+        {   if(!aux.getRoles().stream().findFirst().get().getName().equals("ROLE_OWNER")) {
+            usr.add(aux);
 
+        }
+        }
+        return usr;
+    }
     @PostMapping("/save")
     public String saveUser(@ModelAttribute CrmUser user)
     {
         userService.save(user);
         return "redirect:/list";
     }
+
     @PostMapping("/update")
     public String updateUser(@ModelAttribute User user,@RequestParam String role,@RequestParam Integer flag)
     {
@@ -93,13 +106,26 @@ public class UserController {
         User user=userService.findByUserName(username);
         model.addAttribute("user",user);
         model.addAttribute("role",new Role());
+        List<Role>roles= (List<Role>) user.getRoles();
+        List<String>select=new ArrayList<>();
+        System.out.println(roles.get(0).toString());
+        if(roles.get(0).getName().equals("ROLE_USER"))
+        {
+
+            select.add("USER");select.add("ADMIN");
+        }
+        else
+        {
+            select.add("ADMIN"); select.add("USER");
+        }
+        model.addAttribute("options",select);
         return "change-role-form";
     }
     @PostMapping("/changeRole")
     public String changeRole(@ModelAttribute User user,@RequestParam String role)
     {
-
-        userService.changeRole(role,user.getUsername());
+        
+        userService.changeRole("ROLE_"+role,user.getUsername());
         return "redirect:/list";
     }
 
@@ -130,5 +156,23 @@ public class UserController {
         return "redirect:/user";
 
     }
+
+
+    @GetMapping("/processUserById")
+    public String processUserRest(@RequestParam(value = "Id",required = false) Long id,RedirectAttributes redirectAttributes,Model model)
+    {
+        if(id==null) {
+            redirectAttributes.addFlashAttribute("message", "Add a number");
+            return "redirect:/owner";
+        }
+
+        User user=userService.findById(id);
+        if(user==null) {
+            redirectAttributes.addFlashAttribute("message", "User not found");
+            return "redirect:/owner";
+        }
+        return "redirect:/rest/users/id/"+id;
+    }
+
 
 }
